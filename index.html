@@ -14,6 +14,15 @@
                 <i class="fas fa-cloud-sun"></i>
                 <h1>Royzee Weather</h1>
             </div>
+            <div class="location-buttons">
+                <button id="use-location" class="location-btn">
+                    <i class="fas fa-location-arrow"></i> Use My Location
+                </button>
+                <span class="unit-toggle">
+                    <button class="unit-btn active" data-unit="metric">°C</button>
+                    <button class="unit-btn" data-unit="imperial">°F</button>
+                </span>
+            </div>
             <button class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
             </button>
@@ -27,6 +36,15 @@
                 </ul>
             </nav>
         </header>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading-container" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-container" style="display: none;"></div>
 
         <!-- Home Page -->
         <section id="home" class="page active">
@@ -43,120 +61,65 @@
                 <div class="weather-header">
                     <div class="location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <h3 id="current-city">New York, USA</h3>
+                        <h3 id="current-city">Loading...</h3>
                     </div>
                     <div class="date" id="current-date">Monday, June 12, 2023</div>
                 </div>
                 <div class="weather-main">
                     <div class="weather-info">
-                        <div class="temperature">24°C</div>
-                        <div class="condition">Partly Cloudy</div>
+                        <div class="temperature">--°C</div>
+                        <div class="condition">--</div>
+                        <div class="feels-like">Feels like: --°C</div>
                     </div>
                     <div class="weather-icon">
-                        <i class="fas fa-cloud-sun"></i>
+                        <i class="fas fa-question"></i>
                     </div>
                 </div>
                 <div class="weather-details">
                     <div class="detail-card">
                         <i class="fas fa-wind"></i>
                         <h4>Wind</h4>
-                        <p>12 km/h</p>
+                        <p>-- km/h</p>
                     </div>
                     <div class="detail-card">
                         <i class="fas fa-tint"></i>
                         <h4>Humidity</h4>
-                        <p>65%</p>
+                        <p>--%</p>
                     </div>
                     <div class="detail-card">
-                        <i class="fas fa-temperature-low"></i>
-                        <h4>Feels Like</h4>
-                        <p>26°C</p>
+                        <i class="fas fa-eye"></i>
+                        <h4>Visibility</h4>
+                        <p>-- km</p>
                     </div>
                     <div class="detail-card">
                         <i class="fas fa-compress-arrows-alt"></i>
                         <h4>Pressure</h4>
-                        <p>1015 hPa</p>
+                        <p>-- hPa</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-sun"></i>
+                        <h4>Sunrise</h4>
+                        <p>--:--</p>
+                    </div>
+                    <div class="detail-card">
+                        <i class="fas fa-moon"></i>
+                        <h4>Sunset</h4>
+                        <p>--:--</p>
                     </div>
                 </div>
             </div>
 
             <section class="forecast">
                 <h2 class="section-title"><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h2>
-                <div class="forecast-container">
-                    <div class="forecast-card">
-                        <div class="forecast-day">Tuesday</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">26°C</span>
-                            <span class="min-temp">18°C</span>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Wednesday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">24°C</span>
-                            <span class="min-temp">17°C</span>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Thursday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-rain"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">21°C</span>
-                            <span class="min-temp">16°C</span>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Friday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">19°C</span>
-                            <span class="min-temp">15°C</span>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Saturday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">23°C</span>
-                            <span class="min-temp">17°C</span>
-                        </div>
-                    </div>
+                <div class="forecast-container" id="5-day-forecast">
+                    <!-- Forecast cards will be generated by JavaScript -->
                 </div>
             </section>
 
             <section class="popular-cities">
                 <h2 class="section-title"><i class="fas fa-globe-americas"></i> Popular Cities</h2>
-                <div class="cities-container">
-                    <div class="city-card" data-city="London">
-                        <div class="city-info">
-                            <h4>London, UK</h4>
-                            <p>Cloudy</p>
-                        </div>
-                        <div class="city-temp">16°C</div>
-                    </div>
-                    <div class="city-card" data-city="Tokyo">
-                        <div class="city-info">
-                            <h4>Tokyo, Japan</h4>
-                            <p>Sunny</p>
-                        </div>
-                        <div class="city-temp">28°C</div>
-                    </div>
-                    <div class="city-card" data-city="Sydney">
-                        <div class="city-info">
-                            <h4>Sydney, Australia</h4>
-                            <p>Clear</p>
-                        </div>
-                        <div class="city-temp">22°C</div>
-                    </div>
-                    <div class="city-card" data-city="Paris">
-                        <div class="city-info">
-                            <h4>Paris, France</h4>
-                            <p>Rainy</p>
-                        </div>
-                        <div class="city-temp">14°C</div>
-                    </div>
+                <div class="cities-container" id="popular-cities">
+                    <!-- Popular cities will be loaded by JavaScript -->
                 </div>
             </section>
         </section>
@@ -169,154 +132,32 @@
                 <div class="weather-header">
                     <div class="location">
                         <i class="fas fa-map-marker-alt"></i>
-                        <h3 id="forecast-city">New York, USA</h3>
+                        <h3 id="forecast-city">Loading...</h3>
                     </div>
                     <div class="date" id="forecast-date">Monday, June 12, 2023</div>
                 </div>
                 <div class="weather-main">
                     <div class="weather-info">
-                        <div class="temperature">24°C</div>
-                        <div class="condition">Partly Cloudy</div>
+                        <div class="temperature">--°C</div>
+                        <div class="condition">--</div>
                     </div>
                     <div class="weather-icon">
-                        <i class="fas fa-cloud-sun"></i>
+                        <i class="fas fa-question"></i>
                     </div>
                 </div>
             </div>
             
             <section class="hourly-forecast">
                 <h3 class="section-title"><i class="fas fa-clock"></i> 24-Hour Forecast</h3>
-                <div class="hourly-container">
-                    <div class="hourly-card">
-                        <div class="hourly-time">Now</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="hourly-temp">24°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">1 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-sun"></i></div>
-                        <div class="hourly-temp">25°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">2 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-sun"></i></div>
-                        <div class="hourly-temp">26°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">3 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="hourly-temp">25°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">4 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud"></i></div>
-                        <div class="hourly-temp">24°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">5 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud"></i></div>
-                        <div class="hourly-temp">23°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">6 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud"></i></div>
-                        <div class="hourly-temp">22°C</div>
-                    </div>
-                    <div class="hourly-card">
-                        <div class="hourly-time">7 PM</div>
-                        <div class="hourly-icon"><i class="fas fa-cloud"></i></div>
-                        <div class="hourly-temp">21°C</div>
-                    </div>
+                <div class="hourly-container" id="hourly-forecast">
+                    <!-- Hourly forecast will be generated by JavaScript -->
                 </div>
             </section>
             
             <section class="forecast">
                 <h3 class="section-title"><i class="fas fa-calendar-alt"></i> 7-Day Forecast</h3>
-                <div class="forecast-container">
-                    <div class="forecast-card">
-                        <div class="forecast-day">Tuesday</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">26°C</span>
-                            <span class="min-temp">18°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 10 km/h</p>
-                            <p>Humidity: 60%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Wednesday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">24°C</span>
-                            <span class="min-temp">17°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 12 km/h</p>
-                            <p>Humidity: 65%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Thursday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-rain"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">21°C</span>
-                            <span class="min-temp">16°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 15 km/h</p>
-                            <p>Humidity: 75%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Friday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">19°C</span>
-                            <span class="min-temp">15°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 18 km/h</p>
-                            <p>Humidity: 80%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Saturday</div>
-                        <div class="forecast-icon"><i class="fas fa-cloud-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">23°C</span>
-                            <span class="min-temp">17°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 10 km/h</p>
-                            <p>Humidity: 65%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Sunday</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">25°C</span>
-                            <span class="min-temp">18°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 8 km/h</p>
-                            <p>Humidity: 55%</p>
-                        </div>
-                    </div>
-                    <div class="forecast-card">
-                        <div class="forecast-day">Monday</div>
-                        <div class="forecast-icon"><i class="fas fa-sun"></i></div>
-                        <div class="forecast-temp">
-                            <span class="max-temp">27°C</span>
-                            <span class="min-temp">19°C</span>
-                        </div>
-                        <div class="forecast-details">
-                            <p>Wind: 10 km/h</p>
-                            <p>Humidity: 50%</p>
-                        </div>
-                    </div>
+                <div class="forecast-container" id="7-day-forecast">
+                    <!-- 7-day forecast will be generated by JavaScript -->
                 </div>
             </section>
         </section>
@@ -327,41 +168,37 @@
             <p>Explore interactive weather maps for different regions and weather phenomena.</p>
             
             <div class="maps-container">
-                <div class="map-card">
+                <div class="map-card" id="temp-map">
                     <i class="fas fa-temperature-high"></i>
                     <h3>Temperature Map</h3>
-                    <div class="map-preview">Temperature Visualization</div>
+                    <div class="map-preview" id="temperature-map">
+                        <!-- Temperature map will be loaded here -->
+                    </div>
                     <p>Current temperature distribution across the globe</p>
                 </div>
-                <div class="map-card">
-                    <i class="fas fa-wind"></i>
-                    <h3>Wind Map</h3>
-                    <div class="map-preview">Wind Patterns</div>
-                    <p>Real-time wind speed and direction visualization</p>
-                </div>
-                <div class="map-card">
+                <div class="map-card" id="precipitation-map">
                     <i class="fas fa-cloud-rain"></i>
                     <h3>Precipitation Map</h3>
-                    <div class="map-preview">Rainfall Radar</div>
+                    <div class="map-preview" id="rain-map">
+                        <!-- Precipitation map will be loaded here -->
+                    </div>
                     <p>Live precipitation and rainfall intensity data</p>
                 </div>
-                <div class="map-card">
-                    <i class="fas fa-sun"></i>
-                    <h3>Satellite Map</h3>
-                    <div class="map-preview">Satellite Imagery</div>
-                    <p>Latest satellite images with cloud cover</p>
+                <div class="map-card" id="wind-map">
+                    <i class="fas fa-wind"></i>
+                    <h3>Wind Map</h3>
+                    <div class="map-preview" id="wind-visualization">
+                        <!-- Wind map will be loaded here -->
+                    </div>
+                    <p>Real-time wind speed and direction visualization</p>
                 </div>
-                <div class="map-card">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Lightning Map</h3>
-                    <div class="map-preview">Lightning Strikes</div>
-                    <p>Real-time lightning strike detection</p>
-                </div>
-                <div class="map-card">
-                    <i class="fas fa-water"></i>
-                    <h3>Ocean Currents</h3>
-                    <div class="map-preview">Ocean Currents Map</div>
-                    <p>Ocean temperature and current patterns</p>
+                <div class="map-card" id="cloud-map">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud Map</h3>
+                    <div class="map-preview" id="cloud-cover">
+                        <!-- Cloud map will be loaded here -->
+                    </div>
+                    <p>Global cloud cover and satellite imagery</p>
                 </div>
             </div>
         </section>
@@ -371,67 +208,8 @@
             <h2 class="section-title"><i class="fas fa-newspaper"></i> Weather News</h2>
             <p>Stay updated with the latest weather news and climate developments from around the world.</p>
             
-            <div class="news-container">
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-hurricane"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">June 10, 2023</div>
-                        <h3 class="news-title">Hurricane Season Expected to Be More Active Than Average</h3>
-                        <p class="news-excerpt">Forecasters predict an above-average hurricane season with 14-20 named storms expected in the Atlantic basin.</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-temperature-high"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">June 8, 2023</div>
-                        <h3 class="news-title">Record Heatwave Sweeps Across Europe</h3>
-                        <p class="news-excerpt">Temperatures soar to unprecedented levels in Southern Europe, breaking multiple historical records.</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-snowflake"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">June 5, 2023</div>
-                        <h3 class="news-title">Unusual Late-Season Snowfall in the Alps</h3>
-                        <p class="news-excerpt">Mountain resorts experience significant snowfall in early June, a rare occurrence for this time of year.</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-cloud-showers-heavy"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">June 3, 2023</div>
-                        <h3 class="news-title">Monsoon Arrives Early in Southeast Asia</h3>
-                        <p class="news-excerpt">The annual monsoon season has begun ahead of schedule, bringing relief to drought-affected regions.</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">May 30, 2023</div>
-                        <h3 class="news-title">Study Links Changing Weather Patterns to Agricultural Impacts</h3>
-                        <p class="news-excerpt">New research highlights how shifting climate patterns are affecting crop yields worldwide.</p>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-water"></i>
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">May 28, 2023</div>
-                        <h3 class="news-title">Rising Sea Levels Threaten Coastal Cities</h3>
-                        <p class="news-excerpt">Latest measurements show accelerated sea level rise, prompting calls for enhanced coastal protection measures.</p>
-                    </div>
-                </div>
+            <div class="news-container" id="news-container">
+                <!-- News will be loaded dynamically -->
             </div>
         </section>
 
@@ -447,25 +225,30 @@
                     <h2>Our Technology</h2>
                     <p>We utilize cutting-edge meteorological technology, combining data from multiple sources including satellites, weather stations, and atmospheric models. Our advanced algorithms process billions of data points to deliver precise forecasts and real-time weather information.</p>
                     
-                    <h2>Our Team</h2>
-                    <p>Our team consists of experienced meteorologists, data scientists, and software engineers who are passionate about weather and technology. Together, we work to continuously improve our services and expand our coverage to more locations worldwide.</p>
+                    <h2>Real-time Data</h2>
+                    <p>Powered by OpenWeatherMap API, we provide up-to-date weather information for over 200,000 cities worldwide. All data is updated in real-time to ensure accuracy and reliability.</p>
                 </div>
                 
                 <div class="about-text">
                     <h2>Weather Data Sources</h2>
                     <p>We partner with leading meteorological organizations worldwide to ensure the accuracy and reliability of our weather data. Our sources include:</p>
                     <ul style="margin-left: 20px; margin-bottom: 15px;">
+                        <li>OpenWeatherMap API</li>
                         <li>National Weather Services</li>
                         <li>Satellite imagery providers</li>
                         <li>Weather radar networks</li>
                         <li>Atmospheric monitoring stations</li>
                     </ul>
                     
-                    <h2>Accuracy Commitment</h2>
-                    <p>We are committed to providing the most accurate weather information possible. Our forecasts are continuously verified against actual weather conditions, and we transparently report our accuracy rates for different timeframes and locations.</p>
-                    
-                    <h2>Global Coverage</h2>
-                    <p>With coverage for over 200,000 cities worldwide, GlobalWeather ensures that no matter where you are, you can access reliable weather information in multiple languages and units of measurement.</p>
+                    <h2>Features</h2>
+                    <ul style="margin-left: 20px; margin-bottom: 15px;">
+                        <li>Real-time weather data</li>
+                        <li>5-day weather forecast</li>
+                        <li>Hourly forecast</li>
+                        <li>Weather maps</li>
+                        <li>Multiple units (Celsius/Fahrenheit)</li>
+                        <li>Location-based weather</li>
+                    </ul>
                 </div>
             </div>
             
@@ -475,22 +258,20 @@
                     <div class="team-image">
                         <i class="fas fa-user"></i>
                     </div>
-                    <div class="team-name">Engr Nkemakolam Godwin </div>
+                    <div class="team-name">Engr Nkemakolam Godwin</div>
                     <div class="team-role">Chief Meteorologist</div>
                 </div>                             
-                   
             </div>
         </section>
 
         <footer>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Contact Us</a>
-                <a href="#">API</a>
+                <a href="https://openweathermap.org/" target="_blank">Weather Data by OpenWeather</a>
+                <a href="#" id="refresh-data">Refresh Data</a>
+                <a href="#" id="api-status">API Status: Checking...</a>
             </div>
             <p class="copyright">© <span id="currentYear"></span> ROY ZEE NET. All rights reserved.</p>
-            <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+            <p class="api-info">Weather data provided by OpenWeatherMap API</p>
         </footer>
     </div>
 
@@ -499,7 +280,6 @@
     </div>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-      <script src="app.js"></script>
-    
+    <script src="app.js"></script>
 </body>
 </html>
