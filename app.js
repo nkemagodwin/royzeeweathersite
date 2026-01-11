@@ -501,4 +501,167 @@ function loadWeatherMaps() {
     const maps = {
         'temperature-map': 'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=0&lon=0&zoom=2',
         'rain-map': 'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=precipitation&lat=0&lon=0&zoom=2',
-        'wind-visualization': 'https://openweathermap.org/weathermap?basem
+        'wind-visualization': 'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=wind&lat=0&lon=0&zoom=2',
+        'cloud-cover': 'https://openweathermap.org/weathermap?basemap=map&cities=true&layer=clouds&lat=0&lon=0&zoom=2'
+    };
+    
+    // In a production app, you would embed actual weather maps here
+    // For now, we'll just show placeholder text
+    Object.keys(maps).forEach(mapId => {
+        const mapElement = document.getElementById(mapId);
+        if (mapElement) {
+            mapElement.innerHTML = `
+                <div style="padding: 20px; text-align: center;">
+                    <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                    <p>Interactive Weather Map</p>
+                    <small>Click to view live map</small>
+                </div>
+            `;
+            
+            // Make map cards clickable
+            mapElement.parentElement.addEventListener('click', () => {
+                window.open(maps[mapId], '_blank');
+            });
+        }
+    });
+}
+
+// Load weather news (simulated - in real app, fetch from news API)
+function loadWeatherNews() {
+    const newsContainer = document.getElementById('news-container');
+    
+    // This is simulated news - in a real app, you would fetch from a news API
+    const news = [
+        {
+            title: 'Climate Change Impacts Weather Patterns Worldwide',
+            excerpt: 'Scientists report increasing frequency of extreme weather events due to climate change.',
+            icon: 'fa-globe-americas',
+            date: new Date().toLocaleDateString()
+        },
+        {
+            title: 'New Weather Satellite Launched',
+            excerpt: 'Advanced meteorological satellite will provide more accurate weather forecasting.',
+            icon: 'fa-satellite',
+            date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString()
+        },
+        {
+            title: 'Hurricane Season Forecast Updated',
+            excerpt: 'Meteorologists revise predictions for upcoming hurricane season.',
+            icon: 'fa-hurricane',
+            date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toLocaleDateString()
+        }
+    ];
+    
+    newsContainer.innerHTML = '';
+    
+    news.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'news-card';
+        card.innerHTML = `
+            <div class="news-image">
+                <i class="fas ${item.icon}"></i>
+            </div>
+            <div class="news-content">
+                <div class="news-date">${item.date}</div>
+                <h3 class="news-title">${item.title}</h3>
+                <p class="news-excerpt">${item.excerpt}</p>
+            </div>
+        `;
+        newsContainer.appendChild(card);
+    });
+}
+
+// Change temperature unit
+async function changeTemperatureUnit(unit) {
+    if (unit === currentUnit) return;
+    
+    currentUnit = unit;
+    localStorage.setItem('weatherUnit', unit);
+    
+    // Update active unit button
+    elements.unitButtons.forEach(btn => {
+        if (btn.getAttribute('data-unit') === unit) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    // Reload weather data with new units
+    await loadWeatherData(currentLocation.city);
+    
+    // Reload popular cities
+    loadPopularCities();
+}
+
+// Check API status
+async function checkAPIStatus() {
+    try {
+        const response = await fetch(`${CONFIG.BASE_URL}/weather?q=London&appid=${CONFIG.API_KEY}`);
+        if (response.ok) {
+            elements.apiStatus.textContent = 'API Status: Online';
+            elements.apiStatus.style.color = '#4CAF50';
+        } else {
+            elements.apiStatus.textContent = 'API Status: Limited';
+            elements.apiStatus.style.color = '#FF9800';
+        }
+    } catch (error) {
+        elements.apiStatus.textContent = 'API Status: Offline';
+        elements.apiStatus.style.color = '#F44336';
+    }
+}
+
+// Update date display
+function updateDate() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    
+    const dateString = now.toLocaleDateString('en-US', options);
+    document.getElementById('current-date').textContent = dateString;
+    document.getElementById('forecast-date').textContent = dateString;
+}
+
+// Show loading indicator
+function showLoading() {
+    if (elements.loading) {
+        elements.loading.style.display = 'flex';
+    }
+}
+
+// Hide loading indicator
+function hideLoading() {
+    if (elements.loading) {
+        elements.loading.style.display = 'none';
+    }
+}
+
+// Show error message
+function showError(message) {
+    if (elements.errorMessage) {
+        elements.errorMessage.textContent = message;
+        elements.errorMessage.style.display = 'block';
+    }
+}
+
+// Hide error message
+function hideError() {
+    if (elements.errorMessage) {
+        elements.errorMessage.style.display = 'none';
+    }
+}
+
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
+
+// For development: If no API key is set, show a warning
+if (CONFIG.API_KEY === 'YOUR_OPENWEATHERMAP_API_KEY') {
+    console.warn('Please get your OpenWeatherMap API key from https://openweathermap.org/api');
+    showError('Please set your OpenWeatherMap API key in app.js to enable real-time weather data.');
+}
